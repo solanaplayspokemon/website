@@ -3,40 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solana Plays Pokemon</title>
+    <title>Game Controller</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
+            line-height: 1.6;
             padding: 20px;
-            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
         }
         .instructions {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
             margin-bottom: 20px;
         }
         .embed-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            height: 0;
-            overflow: hidden;
-            max-width: 100%;
-        }
-        .embed-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            background-color: #e0e0e0;
+            padding: 15px;
+            border-radius: 5px;
+            min-height: 200px;
         }
     </style>
 </head>
 <body>
     <div class="instructions">
-        <p>1. Connect your wallet. 2. Join the Livestream. 3. Post a reply message with one of the commands to play.</p>
-        <p>Commands: up, down, left, right, b, a, select, start</p>
+        <h2>How to Play</h2>
+        <p>Post a reply message with one of the commands to play.</p>
+        <h3>Available Commands:</h3>
+        <ul>
+            <li>up</li>
+            <li>down</li>
+            <li>left</li>
+            <li>right</li>
+            <li>b</li>
+            <li>a</li>
+            <li>select</li>
+            <li>start</li>
+        </ul>
     </div>
+
     <div class="embed-container">
-        <iframe src="https://pump.fun/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS" frameborder="0" allowfullscreen></iframe>
+        <!-- Embed content will go here -->
     </div>
 </body>
 </html>
