@@ -3,48 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Controller</title>
+    <title>Embedded Game Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            line-height: 1.6;
+            margin: 0;
             padding: 20px;
-            max-width: 600px;
-            margin: 0 auto;
+            text-align: center;
         }
         .instructions {
-            background-color: #f0f0f0;
-            padding: 15px;
-            border-radius: 5px;
             margin-bottom: 20px;
         }
         .embed-container {
-            background-color: #e0e0e0;
-            padding: 15px;
-            border-radius: 5px;
-            min-height: 200px;
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+        }
+        .embed-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
 <body>
+<a href="https://pump.fun/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS">Click here if not working</a>
     <div class="instructions">
-        <h2>How to Play</h2>
         <p>Post a reply message with one of the commands to play.</p>
-        <h3>Available Commands:</h3>
-        <ul>
-            <li>up</li>
-            <li>down</li>
-            <li>left</li>
-            <li>right</li>
-            <li>b</li>
-            <li>a</li>
-            <li>select</li>
-            <li>start</li>
-        </ul>
+        <p>Commands: up, down, left, right, b, a, select, start</p>
     </div>
-
     <div class="embed-container">
-        <!-- Embed content will go here -->
+        <iframe src="https://pump.fun/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS" frameborder="0" allowfullscreen></iframe>
     </div>
 </body>
 </html>
