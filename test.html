@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USD Market Cap Test</title>
+</head>
+<body>
+    <h1>USD Market Cap</h1>
+    <p id="marketCap">Loading...</p>
+
+    <script>
+        fetch('https://frontend-api.pump.fun/coins/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS')
+            .then(response => response.json())
+            .then(data => {
+                const usdMarketCap = data.usd_market_cap.toFixed(2);
+                document.getElementById('marketCap').textContent = '$' + usdMarketCap;
+            })
+            .catch(error => {
+                console.error('Error fetching market cap data:', error);
+                document.getElementById('marketCap').textContent = 'Error loading data: ' + error.message;
+            });
+    </script>
+</body>
+</html>
