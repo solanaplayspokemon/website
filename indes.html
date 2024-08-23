@@ -53,9 +53,10 @@
 <script>
   // Fetch market cap data for row 5
   fetch('https://frontend-api.pump.fun/coins/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS')
-    .then(response => response.json())
+    .then(response => response.text())
     .then(data => {
-      const usdMarketCap = data.usd_market_cap.toFixed(2);
+      const jsonData = JSON.parse(data);
+      const usdMarketCap = parseFloat(jsonData.usd_market_cap).toFixed(2);
       document.getElementById('marketCap0005').textContent = '$' + usdMarketCap;
     })
     .catch(error => {
