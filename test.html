@@ -11,18 +11,29 @@
 
     <script>
         const apiUrl = 'https://frontend-api.pump.fun/coins/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS';
-        const corsProxyUrl = 'https://cors-anywhere.herokuapp.com/';
 
-        fetch(corsProxyUrl + apiUrl)
-            .then(response => response.json())
-            .then(data => {
-                const usdMarketCap = data.usd_market_cap.toFixed(2);
-                document.getElementById('marketCap').textContent = '$' + usdMarketCap;
-            })
-            .catch(error => {
-                console.error('Error fetching market cap data:', error);
-                document.getElementById('marketCap').textContent = 'Error loading data: ' + error.message;
-            });
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', apiUrl, true);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                try {
+                    const data = JSON.parse(xhr.responseText);
+                    const usdMarketCap = parseFloat(data.usd_market_cap).toFixed(2);
+                    document.getElementById('marketCap').textContent = '$' + usdMarketCap;
+                } catch (error) {
+                    console.error('Error parsing JSON:', error);
+                    document.getElementById('marketCap').textContent = 'Error parsing data: ' + error.message;
+                }
+            } else {
+                console.error('Request failed. Status:', xhr.status);
+                document.getElementById('marketCap').textContent = 'Error loading data. Status: ' + xhr.status;
+            }
+        };
+        xhr.onerror = function() {
+            console.error('Network error occurred');
+            document.getElementById('marketCap').textContent = 'Network error occurred';
+        };
+        xhr.send();
     </script>
 </body>
 </html>
