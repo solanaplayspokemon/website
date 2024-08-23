@@ -10,7 +10,10 @@
     <p id="marketCap">Loading...</p>
 
     <script>
-        fetch('https://frontend-api.pump.fun/coins/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS')
+        const apiUrl = 'https://frontend-api.pump.fun/coins/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS';
+        const corsProxyUrl = 'https://cors-anywhere.herokuapp.com/';
+
+        fetch(corsProxyUrl + apiUrl)
             .then(response => response.json())
             .then(data => {
                 const usdMarketCap = data.usd_market_cap.toFixed(2);
