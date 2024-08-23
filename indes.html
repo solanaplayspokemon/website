@@ -55,7 +55,8 @@
   fetch('https://frontend-api.pump.fun/coins/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS')
     .then(response => response.json())
     .then(data => {
-      document.getElementById('marketCap0005').textContent = data.usd_market_cap;
+      const usdMarketCap = data.usd_market_cap.toFixed(2);
+      document.getElementById('marketCap0005').textContent = '$' + usdMarketCap;
     })
     .catch(error => {
       console.error('Error fetching market cap data:', error);
