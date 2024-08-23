@@ -3,43 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USD Market Cap Test (with CORS Proxy)</title>
+    <title>JSON Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        h1 {
+            text-align: center;
+        }
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            pre {
+                border: none;
+                background-color: white;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>USD Market Cap (with CORS Proxy)</h1>
-    <p id="marketCap">Loading...</p>
-    <pre id="rawData" style="display:block;"></pre> <!-- Changed display to block to show raw data -->
+    <h1>JSON Data</h1>
+    <pre id="json-data">Loading...</pre>
 
     <script>
-        const apiUrl = 'https://frontend-api.pump.fun/coins/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS';
-        const corsProxyUrl = 'https://cors-anywhere.herokuapp.com/';
-
-        fetch(corsProxyUrl + apiUrl, {
-            method: 'GET',
-            headers: {
-                'accept': '*/*'
-            }
-        })
-        .then(response => response.text())
-        .then(text => {
-            document.getElementById('rawData').textContent = text;
-            try {
-                const data = JSON.parse(text);
-                if (data && 'usd_market_cap' in data) {
-                    const usdMarketCap = parseFloat(data.usd_market_cap).toFixed(2);
-                    document.getElementById('marketCap').textContent = '$' + usdMarketCap;
-                } else {
-                    throw new Error('usd_market_cap not found in response');
-                }
-            } catch (e) {
-                console.error('Error parsing JSON or processing data:', e);
-                document.getElementById('marketCap').textContent = 'Error loading data: ' + e.message;
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching market cap data:', error);
-            document.getElementById('marketCap').textContent = 'Error loading data: ' + error.message;
-        });
+        fetch('https://frontend-api.pump.fun/coins/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('json-data').textContent = JSON.stringify(data, null, 4);
+            })
+            .catch(error => {
+                document.getElementById('json-data').textContent = 'Error loading data: ' + error;
+            });
     </script>
 </body>
 </html>
