@@ -3,83 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Cap Table</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <title>Market Data Table</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
-    <table id="marketCapTable" border="1">
-        <tr>
-            <th>Number</th>
-            <th>Image</th>
-            <th>Market Cap</th>
-            <th>Link</th>
-        </tr>
+    <h1>Market Data</h1>
+    <table id="marketTable">
+        <thead>
+            <tr>
+                <th>Number</th>
+                <th>Image</th>
+                <th>Market Cap</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td colspan="4">Loading data...</td>
+            </tr>
+        </tbody>
     </table>
 
-    <script>
-        // Function to create table rows
-        function createTableRows() {
-            const table = document.getElementById('marketCapTable');
-            for (let i = 1; i <= 151; i++) {
-                const row = table.insertRow(-1);
-                const paddedNumber = i.toString().padStart(4, '0');
-                
-                row.insertCell(0).textContent = paddedNumber;
-                row.insertCell(1).innerHTML = `<img src="${paddedNumber}.png" alt="${paddedNumber}">`;
-                row.insertCell(2).textContent = 'Waiting for data...';
-                row.insertCell(3).textContent = 'Link placeholder';
-            }
-        }
-
-        // Create table rows
-        createTableRows();
-
-        // Connect to WebSocket
-        const socket = io('wss://frontend-api.pump.fun/socket.io/?EIO=4&transport=websocket', {
-            transports: ['websocket'],
-            query: {
-                EIO: 4
-            }
-        });
-
-        // Listen for connect event
-        socket.on('connect', () => {
-            console.log('Connected to WebSocket');
-        });
-
-        // Listen for tradeCreated messages
-        socket.on('message', (message) => {
-            try {
-                const data = JSON.parse(message);
-                if (data.event === 'tradeCreated' && 
-                    data.data.id === 'DHs9vuW1djdsiBh4WYMN3JT2n7T78xamgSxEeqJVpump') {
-                    updateMarketCap(data.data.usd_market_cap);
-                }
-            } catch (error) {
-                console.error('Error parsing message:', error);
-            }
-        });
-
-        // Function to update market cap in the table
-        function updateMarketCap(marketCap) {
-            const table = document.getElementById('marketCapTable');
-            const rows = table.getElementsByTagName('tr');
-            
-            // Start from index 1 to skip the header row
-            for (let i = 1; i < rows.length; i++) {
-                const cell = rows[i].cells[2];
-                cell.textContent = `$${marketCap.toFixed(2)}`;
-            }
-        }
-
-        // Error handling
-        socket.on('error', (error) => {
-            console.error('WebSocket error:', error);
-        });
-
-        socket.on('disconnect', (reason) => {
-            console.log('Disconnected from WebSocket:', reason);
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
