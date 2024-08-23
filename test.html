@@ -3,49 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON Data</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        pre {
-            background-color: #f4f4f4;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-        h1 {
-            text-align: center;
-        }
-        @media print {
-            body {
-                margin: 0;
-                padding: 0;
-            }
-            pre {
-                border: none;
-                background-color: white;
-            }
-        }
-    </style>
+    <title>Market Cap Display</title>
 </head>
 <body>
-    <h1>JSON Data</h1>
-    <pre id="json-data">Loading...</pre>
+    <h1>Market Cap:</h1>
+    <div id="marketCap"></div>
 
     <script>
-        fetch('https://frontend-api.pump.fun/coins/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('json-data').textContent = JSON.stringify(data, null, 4);
-            })
-            .catch(error => {
-                document.getElementById('json-data').textContent = 'Error loading data: ' + error;
-            });
+        // Connect to the WebSocket
+        const socket = new WebSocket('wss://frontend-api.pump.fun/socket.io/?EIO=4&transport=websocket');
+
+        // Event listener for when the WebSocket connection is opened
+        socket.onopen = function(event) {
+            console.log('WebSocket is open now.');
+        };
+
+        // Event listener for when a message is received
+        socket.onmessage = function(event) {
+            const message = event.data;
+            
+            // Check if the message contains "tradeCreated"
+            if (message.includes('tradeCreated')) {
+                try {
+                    // Extract the JSON part of the message
+                    const jsonMessage = JSON.parse(message.substring(message.indexOf('[')));
+                    
+                    // Check if it's the correct event
+                    if (jsonMessage[0] === 'tradeCreated') {
+                        const tradeData = jsonMessage[1];
+                        
+                        // Extract and display the usd_market_cap
+                        const marketCap = tradeData.usd_market_cap;
+                        document.getElementById('marketCap').innerText = `$${marketCap.toFixed(2)}`;
+                    }
+                } catch (error) {
+                    console.error('Error parsing message:', error);
+                }
+            }
+        };
+
+        // Event listener for when the WebSocket connection is closed
+        socket.onclose = function(event) {
+            console.log('WebSocket is closed now.');
+        };
+
+        // Event listener for WebSocket errors
+        socket.onerror = function(error) {
+            console.error('WebSocket error:', error);
+        };
     </script>
 </body>
 </html>
