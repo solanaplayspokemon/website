@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSON Data with CORS Anywhere</title>
+    <title>JSON Data</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -38,10 +38,7 @@
     <pre id="json-data">Loading...</pre>
 
     <script>
-        const url = 'https://frontend-api.pump.fun/coins/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS';
-        const corsProxy = 'https://cors-anywhere.herokuapp.com/';
-        
-        fetch(corsProxy + url)
+        fetch('https://frontend-api.pump.fun/coins/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS')
             .then(response => response.json())
             .then(data => {
                 document.getElementById('json-data').textContent = JSON.stringify(data, null, 4);
