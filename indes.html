@@ -1,42 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Data Table</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
-</head>
-<body>
-    <h1>Market Data</h1>
-    <table id="marketTable">
-        <thead>
-            <tr>
-                <th>Number</th>
-                <th>Image</th>
-                <th>Market Cap</th>
-                <th>Link</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td colspan="4">Loading data...</td>
-            </tr>
-        </tbody>
-    </table>
+<table border="1">
+  <tr>
+    <th>Number</th>
+    <th>Image</th>
+    <th>Market Cap</th>
+    <th>CA</th>
+  </tr>
+  <tr>
+    <td>0001</td>
+    <td><img src="0001.png" alt="Image 0001"></td>
+    <td>Market Cap Data</td>
+    <td>CA Data</td>
+  </tr>
+  <tr>
+    <td>0002</td>
+    <td><img src="0002.png" alt="Image 0002"></td>
+    <td>Market Cap Data</td>
+    <td>CA Data</td>
+  </tr>
+  <tr>
+    <td>0003</td>
+    <td><img src="0003.png" alt="Image 0003"></td>
+    <td>Market Cap Data</td>
+    <td>CA Data</td>
+  </tr>
+  <tr>
+    <td>0004</td>
+    <td><img src="0004.png" alt="Image 0004"></td>
+    <td>Market Cap Data</td>
+    <td>CA Data</td>
+  </tr>
+  <tr>
+    <td>0005</td>
+    <td><img src="0005.png" alt="Image 0005"></td>
+    <td id="marketCap0005">Loading...</td>
+    <td>CA Data</td>
+  </tr>
+  <tr>
+    <td>0006</td>
+    <td><img src="0006.png" alt="Image 0006"></td>
+    <td>Market Cap Data</td>
+    <td>CA Data</td>
+  </tr>
+  <!-- Rows 7-151 would go here, following the same pattern -->
+  <tr>
+    <td>0151</td>
+    <td><img src="0151.png" alt="Image 0151"></td>
+    <td>Market Cap Data</td>
+    <td>CA Data</td>
+  </tr>
+</table>
 
-    <script src="script.js"></script>
-</body>
-</html>
+<script>
+  // Fetch market cap data for row 5
+  fetch('https://frontend-api.pump.fun/coins/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS')
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('marketCap0005').textContent = data.usd_market_cap;
+    })
+    .catch(error => {
+      console.error('Error fetching market cap data:', error);
+      document.getElementById('marketCap0005').textContent = 'Error loading data';
+    });
+</script>
