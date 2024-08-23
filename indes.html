@@ -52,7 +52,7 @@
             try {
                 const data = JSON.parse(message);
                 if (data.event === 'tradeCreated' && 
-                    data.data.id === '5sDn61tjfV4GEhm9kPMyukrKZkzm3WkipM3CKJnAmT4BjLUMd5A9J8sJ7QvrPuLoR5pAYGjUDMPcnbwHW9AisL95') {
+                    data.data.id === 'DHs9vuW1djdsiBh4WYMN3JT2n7T78xamgSxEeqJVpump') {
                     updateMarketCap(data.data.usd_market_cap);
                 }
             } catch (error) {
