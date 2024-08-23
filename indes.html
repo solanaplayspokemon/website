@@ -35,7 +35,7 @@
         createTableRows();
 
         // Connect to WebSocket
-        const socket = io('wss://frontend-api.pump.fun', {
+        const socket = io('wss://frontend-api.pump.fun/socket.io/?EIO=4&transport=websocket', {
             transports: ['websocket'],
             query: {
                 EIO: 4
