@@ -3,43 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solana Plays Pokemon</title>
- <link rel="stylesheet" href="style.css">
+    <title>Pokémon Index</title>
     <style>
         body {
+            background-color: black;
+            color: white;
             font-family: Arial, sans-serif;
-            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding: 20px;
+        }
+        h1 {
             text-align: center;
         }
         .instructions {
+            background-color: #222;
+            padding: 15px;
+            border-radius: 5px;
             margin-bottom: 20px;
+            max-width: 600px;
         }
-        .embed-container {
-            position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            height: 0;
-            overflow: hidden;
-            max-width: 100%;
-        }
-        .embed-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
+        table {
+            border-collapse: collapse;
             width: 100%;
-            height: 100%;
+            max-width: 800px;
+        }
+        th, td {
+            border: 1px solid #444;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #333;
+        }
+        img {
+            max-width: 50px;
+            height: auto;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-<h1><a href="https://pump.fun/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS">CLICK HERE TO PLAY</a></h1>
+    <h1><a href="https://pump.fun/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS">CLICK HERE TO PLAY</a></h1>
+
     <div class="instructions">
-        <p>1. Connect Wallet. 2. Join Livestream if not joined already. 3. Post a reply message with one of the commands to play.</p>
+        <h2>Instructions:</h2>
+        <ol>
+            <li>Connect Wallet.</li>
+            <li>Join Livestream if not joined already.</li>
+            <li>Post a reply message with one of the commands to play.</li>
+        </ol>
         <p>Commands: up, down, left, right, b, a, select, start</p>
     </div>
-    <div class="embed-container">
-        <iframe src="https://pump.fun/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS" frameborder="0" allowfullscreen></iframe>
+
+   <div class="embed-container">
+        <iframe src="https://pump.fun/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS" frameborder="1" allowfullscreen></iframe>
     </div>
+
 
 
 
