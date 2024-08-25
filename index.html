@@ -10,32 +10,33 @@
             background-color: black;
             color: white;
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 100%;
+            width: 100%;
+            overflow-x: auto;
         }
         h1 {
-            text-align: center;
+            width: 100%;
         }
         .instructions {
             background-color: #222;
             padding: 15px;
             border-radius: 5px;
             margin-bottom: 20px;
-            max-width: 600px;
-        }
-        .embed-container {
-            width: 300%; /* 3x bigger */
-            height: 300%; /* 3x bigger */
-            transform: scale(3); /* 3x bigger */
-            transform-origin: top left;
-            margin-bottom: 60px; /* Add some space below the enlarged embed */
+            max-width: 90%;
+            width: 600px;
         }
         table {
             border-collapse: collapse;
-            width: 100%;
-            max-width: 800px;
+            margin: 0 auto;
+            max-width: 100%;
         }
         th, td {
             border: 1px solid #444;
@@ -55,6 +56,17 @@
         }
         a:hover {
             text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            .instructions, table {
+                font-size: 14px;
+            }
+            th, td {
+                padding: 5px;
+            }
+            img {
+                max-width: 30px;
+            }
         }
     </style>
 </head>
