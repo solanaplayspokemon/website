@@ -12,7 +12,26 @@
     <p>Last updated: <span id="last-updated">-</span></p>
     <p>Status: <span id="status">Waiting for first update...</span></p>
 
-<iframe src="https://pump.fun/J74ufcRuJQtgy7MpKjxzYFzPz7BrJfA5B4XVxfvpump" sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+
+    <iframe 
+        src="https://pump.fun/J74ufcRuJQtgy7MpKjxzYFzPz7BrJfA5B4XVxfvpump" 
+        sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms allow-modals"
+        title="Embedded pump.fun Page"
+    >
+        Your browser does not support iframes.
+    </iframe>
+
+    <script>
+        // This script attempts to listen for messages from the iframe
+        window.addEventListener('message', function(event) {
+            if (event.origin !== 'https://pump.fun') return;
+            
+            // Handle messages from the iframe here
+            console.log('Received message from iframe:', event.data);
+            
+            // You might need to implement specific handling based on the messages received
+        }, false);
+    </script>
 
     
     <script>
