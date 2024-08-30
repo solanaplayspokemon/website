@@ -3,12 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USD Market Cap Display</title>
+    <title>USD Market Cap</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="server.js"></script>
 </head>
 <body>
     <h1>Current USD Market Cap</h1>
     <p>Market Cap: <span id="market-cap">Loading...</span></p>
+    <p>Last updated: <span id="last-updated">-</span></p>
+
+    <script>
+        const apiUrl = 'https://frontend-api.pump.fun/coins/A5QHYcSj76eV52gyu5UtoLHY4B7YqvdR28Togne4pump';
+
+        async function fetchUsdMarketCap() {
+            try {
+                const response = await axios.get(apiUrl);
+                const data = response.data;
+
+                if (data && data.usd_market_cap) {
+                    const formattedMarketCap = data.usd_market_cap.toFixed(2);
+                    document.getElementById('market-cap').textContent = `$${formattedMarketCap}`;
+                    document.getElementById('last-updated').textContent = new Date().toLocaleString();
+                } else {
+                    console.error('Unexpected data format or missing usd_market_cap.');
+                }
+            } catch (error) {
+                console.error('An error occurred while making the request:', error.message);
+            }
+        }
+
+        // Fetch initially and then every 5 seconds
+        fetchUsdMarketCap();
+        setInterval(fetchUsdMarketCap, 5000);
+    </script>
 </body>
 </html>
