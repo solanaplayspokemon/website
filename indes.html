@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>USD Market Cap</title>
+    <!-- Include Axios from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
@@ -28,6 +29,7 @@
                 }
             } catch (error) {
                 console.error('An error occurred while making the request:', error.message);
+                document.getElementById('market-cap').textContent = 'Error fetching data';
             }
         }
 
