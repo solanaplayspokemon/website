@@ -1,6 +1,8 @@
 const axios = require('axios');
+const fs = require('fs');
 
 const apiUrl = 'https://frontend-api.pump.fun/coins/A5QHYcSj76eV52gyu5UtoLHY4B7YqvdR28Togne4pump';
+const outputFile = 'indes.html';  // Changed from 'index.html' to 'indes.html'
 
 let lastMarketCap = null;
 
@@ -16,11 +18,31 @@ async function fetchUsdMarketCap() {
                 const formattedMarketCap = currentMarketCap.toFixed(2);
                 console.log(`Current USD Market Cap: $${formattedMarketCap}`);
                 
-                // Update the DOM element with the new market cap
-                const marketCapElement = document.getElementById('market-cap');
-                if (marketCapElement) {
-                    marketCapElement.textContent = `$${formattedMarketCap}`;
-                }
+                // Generate HTML content
+                const htmlContent = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USD Market Cap</title>
+</head>
+<body>
+    <h1>Current USD Market Cap</h1>
+    <p>Market Cap: $${formattedMarketCap}</p>
+    <p>Last updated: ${new Date().toLocaleString()}</p>
+</body>
+</html>
+                `;
+
+                // Write to indes.html
+                fs.writeFile(outputFile, htmlContent, (err) => {
+                    if (err) {
+                        console.error('Error writing to file:', err);
+                    } else {
+                        console.log(`Updated ${outputFile} with new market cap.`);
+                    }
+                });
 
                 lastMarketCap = currentMarketCap;
             }
@@ -37,5 +59,4 @@ function startPolling() {
     setInterval(fetchUsdMarketCap, 5000);  // Poll the API every 5 seconds
 }
 
-// Start polling when the page loads
-window.addEventListener('load', startPolling);
+startPolling();
