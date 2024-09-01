@@ -5,19 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>USD Market Cap</title>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-       <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-        }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-    </style>
 </head>
 <body>
     <h1>Current USD Market Cap</h1>
@@ -25,47 +12,44 @@
     <p>Last updated: <span id="last-updated">-</span></p>
     <p>Status: <span id="status">Waiting for first update...</span></p>
 
-
-    <iframe 
-        src="https://pump.fun/J74ufcRuJQtgy7MpKjxzYFzPz7BrJfA5B4XVxfvpump" 
-        sandbox="allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms allow-modals"
-        title="Embedded pump.fun Page"
-    >
-        Your browser does not support iframes.
-    </iframe>
-
     <script>
-        // This script attempts to listen for messages from the iframe
-        window.addEventListener('message', function(event) {
-            if (event.origin !== 'https://pump.fun') return;
-            
-            // Handle messages from the iframe here
-            console.log('Received message from iframe:', event.data);
-            
-            // You might need to implement specific handling based on the messages received
-        }, false);
-    </script>
+        const apiUrl = 'https://frontend-api.pump.fun/coins/A5QHYcSj76eV52gyu5UtoLHY4B7YqvdR28Togne4pump';
+        const corsProxyUrl = 'https://cors-anywhere.herokuapp.com/';
 
-    
-    <script>
         async function fetchUsdMarketCap() {
             try {
-                const response = await axios.get('/api/getMarketCap');
-                const data = response.data;
-
-                if (data && data.usd_market_cap) {
-                    const formattedMarketCap = data.usd_market_cap.toFixed(2);
-                    document.getElementById('market-cap').textContent = `$${formattedMarketCap}`;
-                    document.getElementById('last-updated').textContent = new Date().toLocaleString();
-                    document.getElementById('status').textContent = 'Data fetched successfully';
-                } else {
-                    throw new Error('Unexpected data format');
+                // Try direct request first
+                const response = await axios.get(apiUrl);
+                handleSuccessfulResponse(response.data);
+            } catch (directError) {
+                console.error('Direct request failed:', directError.message);
+                document.getElementById('status').textContent = 'Direct request failed. Trying CORS proxy...';
+                
+                try {
+                    // If direct request fails, try using CORS proxy
+                    const proxyResponse = await axios.get(corsProxyUrl + apiUrl);
+                    handleSuccessfulResponse(proxyResponse.data);
+                } catch (proxyError) {
+                    handleError(proxyError);
                 }
-            } catch (error) {
-                console.error('An error occurred while making the request:', error.message);
-                document.getElementById('market-cap').textContent = 'Error fetching data';
-                document.getElementById('status').textContent = `Error: ${error.message}. Check console for more details.`;
             }
+        }
+
+        function handleSuccessfulResponse(data) {
+            if (data && data.usd_market_cap) {
+                const formattedMarketCap = data.usd_market_cap.toFixed(2);
+                document.getElementById('market-cap').textContent = `$${formattedMarketCap}`;
+                document.getElementById('last-updated').textContent = new Date().toLocaleString();
+                document.getElementById('status').textContent = 'Data fetched successfully';
+            } else {
+                document.getElementById('status').textContent = 'Unexpected data format or missing usd_market_cap';
+            }
+        }
+
+        function handleError(error) {
+            console.error('An error occurred while making the request:', error.message);
+            document.getElementById('market-cap').textContent = 'Error fetching data';
+            document.getElementById('status').textContent = `Error: ${error.message}. Check console for more details.`;
         }
 
         // Fetch initially and then every 5 seconds
