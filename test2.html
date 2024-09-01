@@ -12,24 +12,12 @@
     <script>
         async function getMarketCap() {
             try {
-                const response = await fetch('https://pump.fun/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS');
-                const text = await response.text();
+                const response = await fetch('http://localhost:3000/market-cap');
+                const data = await response.json();
 
-                // Look for the "usd_market_cap" string in the source code
-                const regex = /"usd_market_cap\\":(\d+(\.\d+)?)/;
-                const match = text.match(regex);
-
-                let marketCapText = '';
-
-                if (match) {
-                    marketCapText = `$${parseFloat(match[1]).toLocaleString()}`;
-                } else {
-                    marketCapText = 'Market cap not found.';
-                }
-
-                document.getElementById('result').textContent = marketCapText;
+                document.getElementById('result').textContent = data.marketCap || data.error;
             } catch (error) {
-                console.error('Error fetching the page:', error);
+                console.error('Error fetching the market cap:', error);
                 document.getElementById('result').textContent = 'An error occurred while fetching the market cap.';
             }
         }
