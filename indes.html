@@ -13,43 +13,24 @@
     <p>Status: <span id="status">Waiting for first update...</span></p>
 
     <script>
-        const apiUrl = 'https://frontend-api.pump.fun/coins/A5QHYcSj76eV52gyu5UtoLHY4B7YqvdR28Togne4pump';
-        const corsProxyUrl = 'https://cors-anywhere.herokuapp.com/';
-
         async function fetchUsdMarketCap() {
             try {
-                // Try direct request first
-                const response = await axios.get(apiUrl);
-                handleSuccessfulResponse(response.data);
-            } catch (directError) {
-                console.error('Direct request failed:', directError.message);
-                document.getElementById('status').textContent = 'Direct request failed. Trying CORS proxy...';
-                
-                try {
-                    // If direct request fails, try using CORS proxy
-                    const proxyResponse = await axios.get(corsProxyUrl + apiUrl);
-                    handleSuccessfulResponse(proxyResponse.data);
-                } catch (proxyError) {
-                    handleError(proxyError);
+                const response = await axios.get('/api/getMarketCap');
+                const data = response.data;
+
+                if (data && data.usd_market_cap) {
+                    const formattedMarketCap = data.usd_market_cap.toFixed(2);
+                    document.getElementById('market-cap').textContent = `$${formattedMarketCap}`;
+                    document.getElementById('last-updated').textContent = new Date().toLocaleString();
+                    document.getElementById('status').textContent = 'Data fetched successfully';
+                } else {
+                    throw new Error('Unexpected data format');
                 }
+            } catch (error) {
+                console.error('An error occurred while making the request:', error.message);
+                document.getElementById('market-cap').textContent = 'Error fetching data';
+                document.getElementById('status').textContent = `Error: ${error.message}. Check console for more details.`;
             }
-        }
-
-        function handleSuccessfulResponse(data) {
-            if (data && data.usd_market_cap) {
-                const formattedMarketCap = data.usd_market_cap.toFixed(2);
-                document.getElementById('market-cap').textContent = `$${formattedMarketCap}`;
-                document.getElementById('last-updated').textContent = new Date().toLocaleString();
-                document.getElementById('status').textContent = 'Data fetched successfully';
-            } else {
-                document.getElementById('status').textContent = 'Unexpected data format or missing usd_market_cap';
-            }
-        }
-
-        function handleError(error) {
-            console.error('An error occurred while making the request:', error.message);
-            document.getElementById('market-cap').textContent = 'Error fetching data';
-            document.getElementById('status').textContent = `Error: ${error.message}. Check console for more details.`;
         }
 
         // Fetch initially and then every 5 seconds
