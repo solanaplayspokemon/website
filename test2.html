@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Cap Scraper</title>
+</head>
+<body>
+    <h1>Market Cap Scraper</h1>
+    <div id="result"></div>
+
+    <script>
+        async function getMarketCap() {
+            try {
+                const response = await fetch('https://pump.fun/HgXEhe9DXwiTZ5KtuDzJeQLWGHm3z71obXbAushmUGvS');
+                const text = await response.text();
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+
+                // Find the element that contains "Market cap: $"
+                const elements = doc.querySelectorAll('body *');
+                let foundMarketCap = false;
+                let marketCapText = '';
+
+                elements.forEach(element => {
+                    if (foundMarketCap) {
+                        marketCapText = element.textContent.trim();
+                        foundMarketCap = false;
+                    }
+                    if (element.textContent.includes('Market cap: $')) {
+                        foundMarketCap = true;
+                    }
+                });
+
+                document.getElementById('result').textContent = marketCapText || 'Market cap not found.';
+            } catch (error) {
+                console.error('Error fetching the page:', error);
+            }
+        }
+
+        getMarketCap();
+    </script>
+</body>
+</html>
